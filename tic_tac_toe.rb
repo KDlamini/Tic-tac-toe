@@ -1,5 +1,9 @@
 #Define the variable board
-board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+$board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+#Define win combinations
+WIN_COMBINATIONS = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [6,4,2] ]
+#Winning token
+$winning_token = ""
 
 #Display the board to show a 3x3 board
 def display_board(board)
@@ -12,11 +16,6 @@ def display_board(board)
     puts line
     puts " #{board[6]} | #{board[7]} | #{board[8]} "
     
-end
-
-#Convert the user input into an integer and index
-def user_input_index(input)
-    input.to_i - 1
 end
 
 #Make a move by validating then placing the player’s token into chosen square
@@ -39,3 +38,93 @@ def is_move_valid?(board, index)
         true
     end
 end
+
+#Keeping track of player turns
+def player_turn(board)
+    count = 0
+    board.each do |box|
+        if box == "X" || box == "O"
+            count += 1
+        end
+    end
+
+    count % 2 == 0 ? "X": "O"
+end
+
+#Check for win combinations on board
+def any_win?()
+    set = []
+    length = WIN_COMBINATIONS.length
+    i = 0
+
+    length.times do
+        set[0] = $board[WIN_COMBINATIONS[i][0]]
+        set[1] = $board[WIN_COMBINATIONS[i][1]]
+        set[2] = $board[WIN_COMBINATIONS[i][2]]
+        tokens = [ ["X", "X", "X"], ["O", "O", "O"]]
+
+        if set == tokens[0] || set == tokens[1]
+            $winning_token = set[0]
+            return true
+        end
+        i += 1
+    end
+    
+    return false
+end
+
+#Check if the board is full
+def is_board_full?(board)
+    board.all? {|slots| slots == "X" || slots == "O"}
+end
+
+#Clear board
+def clear()
+    $board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+    $winning_token = ""
+end
+
+#Play game again after previous game is over
+def play_again?()
+    puts "\nDo you wish to play again?: Y/N"
+    input = gets.chomp.upcase
+
+    if input == "Y"
+        clear()
+        play_game($board)
+    else
+        puts "\nGOODBYE!!!"
+    end
+end
+
+#Determine if winning conditons are met or continue
+def continue?(board)
+    if any_win?()
+        puts "\nCongratulations! player #{$winning_token}.\nYOU WIN!!!"
+        play_again?()
+    elsif is_board_full?(board)
+        puts "\nIt's a tie!"
+        puts "Game Over!!!"
+        play_again?()
+    else
+        play_game(board)
+    end
+end
+
+#Play game
+def play_game(board)
+    puts "\nMake a move: Enter a number between 1-9"
+    input = gets.strip
+    index = input.to_i - 1
+
+    if is_move_valid?(board, index)
+        make_a_move(board, index, player_turn(board))
+        display_board(board)
+        continue?(board)
+    else
+        puts "\nInvalid move!!!"
+        play_game(board)
+    end
+end
+
+play_game($board)
