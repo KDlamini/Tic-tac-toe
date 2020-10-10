@@ -3,6 +3,8 @@
 **Tic-tac-toe**, *noughts and crosses* (Commonwealth English), or **Xs and Os** is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3×3 grid. The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner. 
 
 * [Reference](https://en.wikipedia.org/wiki/Tic-tac-toe)
+## Live Preview
+[![Run on Repl.it](https://repl.it/badge/github/KDlamini/Tic-tac-toe)](https://repl.it/github/KDlamini/Tic-tac-toe)
 
 ## How do we see Tic Tac Toe?
 
