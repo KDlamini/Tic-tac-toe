@@ -110,7 +110,7 @@ class Game
         count % 2 == 0 ? token[0] : token[1]
     end
 
-    #Determine if winning conditons are met or continue
+    #Determine if winning conditions are met or continue
     def continue?(board)
         if any_win?(@token)
             sleep 1
@@ -130,20 +130,23 @@ class Game
 
     #Play game again after previous game is over
     def play_again?()
-        sleep 2
+        sleep 1
         puts "\nDo you wish to play again?: Y/N"
         input = gets.chomp.upcase
 
-        if input == "Y"
+        case input 
+        when "Y"
             clear_board()
             sleep 1
             self.clear
             display_board(@@board)
             get_input()
-        else
+        when "N"
             sleep 1
             self.clear
             puts "\n\n\n                 ---GOODBYE!!!---\n\n\n".send(:yellow).send(:bold)
+        else
+            play_again?()
         end
     end
 
